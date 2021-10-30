@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,6 +23,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
+  private Joystick m_controller;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +34,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    m_controller = new Joystick(0);
+
   }
 
   /**
@@ -72,6 +77,11 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
         // Put default auto code here
+        if (m_drivetrain.getLeftDistanceInch() < 20) {
+          m_drivetrain.tankDrive(0.5, 0.5);
+        } else {
+          m_drivetrain.tankDrive(0.0, 0.0);
+        }
         break;
     }
   }
@@ -82,7 +92,12 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double left_joystick_y_axis = m_controller.getRawAxis(1);
+    double right_joystick_y_axis =  m_controller.getRawAxis(5);
+
+    m_drivetrain.tankDrive(left_joystick_y_axis, right_joystick_y_axis);  
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
