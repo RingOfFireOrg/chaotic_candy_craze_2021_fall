@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
   private Joystick m_controller;
+  private Servo servo1;
+   private Servo servo2;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,7 +37,8 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_controller = new Joystick(0);
-
+    servo1 = new Servo(2);
+    servo2 = new Servo(3);
   }
 
   /**
@@ -95,8 +98,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     double left_joystick_y_axis = m_controller.getRawAxis(1);
     double right_joystick_y_axis =  m_controller.getRawAxis(5);
+    double left_joystick_x_axis = m_controller.getRawAxis(0);
+    double right_joystick_x_axis = m_controller.getRawAxis(2);
 
-    m_drivetrain.tankDrive(left_joystick_y_axis, right_joystick_y_axis);  
+    m_drivetrain.tankDrive(left_joystick_y_axis, right_joystick_y_axis);
+    servo1.setAngle(joystickToDegrees(left_joystick_x_axis));
+    servo2.setAngle(joystickToDegrees(right_joystick_x_axis));
   }
 
   /** This function is called once when the robot is disabled. */
@@ -114,4 +121,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  private int joystickToDegrees(double input) {
+    return (int) (90 + Math.round(input*90));
+  }
 }
