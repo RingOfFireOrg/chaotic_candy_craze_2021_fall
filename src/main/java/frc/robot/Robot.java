@@ -77,8 +77,8 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
         // Put default auto code here
-        if (m_drivetrain.getLeftDistanceInch() < 20) {
-          m_drivetrain.tankDrive(0.5, 0.5);
+        if (m_drivetrain.getLeftDistanceInch() < 57 && m_drivetrain.getRightDistanceInch() < 57   )  {
+          m_drivetrain.tankDrive(0.5, 0.51);
         } else {
           m_drivetrain.tankDrive(0.0, 0.0);
         }
@@ -93,8 +93,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double left_joystick_y_axis = m_controller.getRawAxis(1);
-    double right_joystick_y_axis =  m_controller.getRawAxis(5);
+    double left_joystick_y_axis = -1 * m_controller.getRawAxis(1);
+    double right_joystick_y_axis = -1 * m_controller.getRawAxis(3);
 
     m_drivetrain.tankDrive(left_joystick_y_axis, right_joystick_y_axis);  
   }
