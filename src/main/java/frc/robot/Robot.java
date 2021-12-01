@@ -77,8 +77,8 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
         // Put default auto code here
-        if (m_drivetrain.getLeftDistanceInch() < 57 && m_drivetrain.getRightDistanceInch() < 57   )  {
-          m_drivetrain.tankDrive(0.5, 0.51);
+        if (m_drivetrain.getLeftDistanceInch() < 60 && m_drivetrain.getRightDistanceInch() < 60   )  {
+          m_drivetrain.tankDrive(0.51, 0.5);
         } else {
           m_drivetrain.tankDrive(0.0, 0.0);
         }
